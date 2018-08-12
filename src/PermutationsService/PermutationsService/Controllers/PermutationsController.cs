@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using PermutationsService.Data.ServicesData;
+using PermutationsService.Services.Abstract;
 
 namespace PermutationsService.Controllers
 {
@@ -10,6 +10,13 @@ namespace PermutationsService.Controllers
     [Route("api/[controller]")]
     public class PermutationsController : ControllerBase
     {
+        private readonly IPermutationsService _permutationsService;
+
+        public PermutationsController(IPermutationsService permutationsService)
+        {
+            _permutationsService = permutationsService;
+        }
+
         // GET: api/<controller>
         [HttpGet]
         public IActionResult Get()
@@ -17,29 +24,43 @@ namespace PermutationsService.Controllers
             return Ok(new[] {"value1", "value2"});
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
+        // POST: api/<controller>/add
         [HttpPost]
-        public void Post([FromBody]string value)
+        [Route("bulk-insert")]
+        public OkObjectResult AddPermutations([FromBody] string[] elements)
         {
+            var result = new List<PermutationEntry>();
+            foreach (var element in elements)
+            {
+                result.Add(_permutationsService.GetPermutations(element));
+            }
+
+            return Ok(result);
         }
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+        //// GET api/<controller>/5
+        //[HttpGet("{id}")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //// POST api/<controller>
+        //[HttpPost]
+        //public void Post([FromBody]string value)
+        //{
+        //}
+
+        //// PUT api/<controller>/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
+
+        //// DELETE api/<controller>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }
