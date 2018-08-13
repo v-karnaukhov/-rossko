@@ -1,41 +1,87 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using PermutationsService.Data.ServicesData;
+using System.Threading.Tasks;
 using PermutationsService.Services.Abstract;
+using PermutationsService.Web.DataAccess.Abstract;
+using PermutationsService.Web.DataAccess.Concrete;
+using PermutationsService.Web.DataAccess.Entities;
 
-namespace PermutationsService.Services.Concrete
+namespace PermutationsService.Web.Services.Concrete
 {
     public class PermutationsService : IPermutationsService
     {
         private static readonly HashAlgorithm s_hashAlgorithm = SHA256.Create();
+        private static readonly object s_lock = new object();
 
-        public PermutationEntry GetPermutations(string element)
+        public PermutationsService()
         {
-            var elementUniqueKey = GetUniqueKeyByValue(element);
-            var strBuilder = new StringBuilder();
-            var timer = new Stopwatch();
+        }
 
-            timer.Start();
-            Permute(element.ToCharArray(), 0, element.Length - 1, strBuilder);
-            timer.Stop();
-
-            return new PermutationEntry
+        public async Task<PermutationEntry> GetPermutations(string element)
+        {
+            using (var unitOfWork = new UnitOfWork())
             {
-                Item = element,
-                Result = strBuilder.ToString(),
-                UniqueKey = elementUniqueKey,
-                SpendedTime = timer.Elapsed.ToString()
-            };
+                var elementUniqueKey = GetUniqueKeyByValue(element);
+                var permutationEntryFromDB = unitOfWork.PermutationsRepository
+                    .FindBy(x => x.UniqueKey == elementUniqueKey).FirstOrDefault();
+                if (permutationEntryFromDB != null)
+                {
+                    return permutationEntryFromDB;
+                }
+
+                var strBuilder = new StringBuilder();
+                var timer = new Stopwatch();
+
+                timer.Start();
+                Permute(element.ToCharArray(), 0, element.Length - 1, strBuilder);
+                timer.Stop();
+
+                var resultEntry = await unitOfWork.PermutationsRepository.AddAsync(new PermutationEntry
+                {
+                    Item = element,
+                    Result = strBuilder.ToString(),
+                    UniqueKey = elementUniqueKey,
+                    SpendedTime = timer.Elapsed.ToString()
+                });
+
+                await unitOfWork.SaveAsync();
+
+                return resultEntry;
+            }
+        }
+
+        public async Task<IEnumerable<PermutationEntry>> GetPermutations(string[] elements)
+        {
+            var result = new List<PermutationEntry>();
+
+            //await Task.Run(() => Parallel.ForEach(elements, async element =>
+            //{
+            //    result.Add(await GetPermutations(element));
+            //}));
+
+            List<Task> Tasks = new List<Task>();
+            foreach (var s in elements)
+            {
+                Tasks.Add(Task.Run(async () => result.Add(await GetPermutations(s))));
+            }
+
+            Task.WaitAll(Tasks.ToArray());
+
+            return result;
         }
 
         public string GetUniqueKeyByValue(string element)
         {
-            return string.IsNullOrEmpty(element)
-                ? string.Empty
-                : GetHashString(GetHash(element));
+            lock (s_lock)
+            {
+                return string.IsNullOrEmpty(element)
+                    ? string.Empty
+                    : GetHashString(GetHash(element));
+            }
+
         }
 
         private IEnumerable<byte> GetHash(string element)

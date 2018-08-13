@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PermutationsService.Data.ServicesData;
 using PermutationsService.Services.Abstract;
+using PermutationsService.Web.DataAccess.Entities;
 
-namespace PermutationsService.Controllers
+namespace PermutationsService.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -24,43 +26,30 @@ namespace PermutationsService.Controllers
             return Ok(new[] {"value1", "value2"});
         }
 
-        // POST: api/<controller>/add
+        /// <remarks>
+        /// Вставка порционных данных плохо вписывается в REST, поэтому реализовано в виде " custom user function"
+        /// </remarks>
+        // POST: api/<controller>/bulk-insert
         [HttpPost]
         [Route("bulk-insert")]
-        public OkObjectResult AddPermutations([FromBody] string[] elements)
+        public async Task<ActionResult> AddPermutations([FromBody] string[] elements)
         {
-            var result = new List<PermutationEntry>();
-            foreach (var element in elements)
+            if (!elements.Any())
             {
-                result.Add(_permutationsService.GetPermutations(element));
+                return BadRequest("The incoming array can not be empty");
+            }
+
+            List<PermutationEntry> result;
+            try
+            {
+                result = (List<PermutationEntry>) await _permutationsService.GetPermutations(elements);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Something went wrong during permutations calculation");
             }
 
             return Ok(result);
         }
-
-        //// GET api/<controller>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        //// POST api/<controller>
-        //[HttpPost]
-        //public void Post([FromBody]string value)
-        //{
-        //}
-
-        //// PUT api/<controller>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE api/<controller>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

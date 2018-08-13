@@ -1,4 +1,4 @@
-﻿namespace PermutationsService.Data.ServicesData
+﻿namespace PermutationsService.Data.DataAccess.Entities
 {
     /// <summary>
     /// Описывает сущность информации о конкретном элементе, для которого были расчитаны все варианты перестановок.
@@ -24,7 +24,7 @@
         public string UniqueKey { get; set; }
 
         /// <summary>
-        /// Массив всех полученных вариантов перестановок элемента.
+        /// Все полученные варианты перестановок элемента.
         /// </summary>
         public string Result { get; set; }
 
