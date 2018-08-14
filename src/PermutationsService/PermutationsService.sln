@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PermutationsService.Web", "PermutationsService\PermutationsService.Web.csproj", "{71D4FFF9-1C0D-4836-9850-FCCD59F38582}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PermutationsService.Tests", "PermutationsService.Tests\PermutationsService.Tests.csproj", "{F45A1674-98D3-4C86-B03A-EDD23D173E93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{71D4FFF9-1C0D-4836-9850-FCCD59F38582}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71D4FFF9-1C0D-4836-9850-FCCD59F38582}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71D4FFF9-1C0D-4836-9850-FCCD59F38582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F45A1674-98D3-4C86-B03A-EDD23D173E93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F45A1674-98D3-4C86-B03A-EDD23D173E93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F45A1674-98D3-4C86-B03A-EDD23D173E93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F45A1674-98D3-4C86-B03A-EDD23D173E93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

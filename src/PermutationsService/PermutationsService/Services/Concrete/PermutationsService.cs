@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PermutationsService.Services.Abstract;
 using PermutationsService.Web.DataAccess.Abstract;
 using PermutationsService.Web.DataAccess.Concrete;
@@ -16,17 +19,14 @@ namespace PermutationsService.Web.Services.Concrete
         private static readonly HashAlgorithm s_hashAlgorithm = SHA256.Create();
         private static readonly object s_lock = new object();
 
-        public PermutationsService()
-        {
-        }
-
         public async Task<PermutationEntry> GetPermutations(string element)
         {
-            using (var unitOfWork = new UnitOfWork())
+            using (var unitOfWork = GetUnitOfWork())
             {
                 var elementUniqueKey = GetUniqueKeyByValue(element);
-                var permutationEntryFromDB = unitOfWork.PermutationsRepository
-                    .FindBy(x => x.UniqueKey == elementUniqueKey).FirstOrDefault();
+                var permutationEntryFromDB = await unitOfWork.PermutationsRepository
+                    .FindBy(x => x.UniqueKey == elementUniqueKey).FirstOrDefaultAsync();
+
                 if (permutationEntryFromDB != null)
                 {
                     return permutationEntryFromDB;
@@ -39,10 +39,12 @@ namespace PermutationsService.Web.Services.Concrete
                 Permute(element.ToCharArray(), 0, element.Length - 1, strBuilder);
                 timer.Stop();
 
+                var resultString = strBuilder.ToString();
                 var resultEntry = await unitOfWork.PermutationsRepository.AddAsync(new PermutationEntry
                 {
                     Item = element,
-                    Result = strBuilder.ToString(),
+                    ResultString = resultString,
+                    ResultCount = resultString.Count(x => x == ',') + 1,
                     UniqueKey = elementUniqueKey,
                     SpendedTime = timer.Elapsed.ToString()
                 });
@@ -53,24 +55,24 @@ namespace PermutationsService.Web.Services.Concrete
             }
         }
 
+        /// <summary>
+        /// Костыльное решение, чтобы иметь возможность подменять UnitOfWork без прокидывания доп. зависимостей.
+        /// </summary>
+        public virtual IUnitOfWork GetUnitOfWork()
+        {
+            return new UnitOfWork();
+        }
+
         public async Task<IEnumerable<PermutationEntry>> GetPermutations(string[] elements)
         {
-            var result = new List<PermutationEntry>();
-
-            //await Task.Run(() => Parallel.ForEach(elements, async element =>
-            //{
-            //    result.Add(await GetPermutations(element));
-            //}));
-
-            List<Task> Tasks = new List<Task>();
-            foreach (var s in elements)
+            var result = new ConcurrentBag<PermutationEntry>();
+            await Task.WhenAll(elements.Select(s => Task.Run(async () =>
             {
-                Tasks.Add(Task.Run(async () => result.Add(await GetPermutations(s))));
-            }
+                var permutationResult = await GetPermutations(s);
+                result.Add(permutationResult);
+            })));
 
-            Task.WaitAll(Tasks.ToArray());
-
-            return result;
+            return result.ToList();
         }
 
         public string GetUniqueKeyByValue(string element)

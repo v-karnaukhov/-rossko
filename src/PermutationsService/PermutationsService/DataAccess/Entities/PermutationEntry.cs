@@ -26,7 +26,12 @@
         /// <summary>
         /// Все полученные варианты перестановок элемента.
         /// </summary>
-        public string Result { get; set; }
+        public string ResultString { get; set; }
+
+        /// <summary>
+        /// Количество полученных для элемента перестановок.
+        /// </summary>
+        public long ResultCount { get; set; }
 
         /// <summary>
         /// Количество затраченного на рассчеты время.

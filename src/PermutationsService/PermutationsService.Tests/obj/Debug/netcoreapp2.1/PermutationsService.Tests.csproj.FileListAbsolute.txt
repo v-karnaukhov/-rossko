@@ -1,0 +1,17 @@
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\bin\Debug\netcoreapp2.1\PermutationsService.Tests.deps.json
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\bin\Debug\netcoreapp2.1\PermutationsService.Tests.runtimeconfig.json
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\bin\Debug\netcoreapp2.1\PermutationsService.Tests.runtimeconfig.dev.json
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\bin\Debug\netcoreapp2.1\PermutationsService.Tests.dll
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\bin\Debug\netcoreapp2.1\PermutationsService.Tests.pdb
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\bin\Debug\netcoreapp2.1\PermutationsService.Web.dll
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\bin\Debug\netcoreapp2.1\PermutationsService.Web.pdb
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\obj\Debug\netcoreapp2.1\PermutationsService.Tests.csprojAssemblyReference.cache
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\obj\Debug\netcoreapp2.1\PermutationsService.Tests.csproj.CoreCompileInputs.cache
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\obj\Debug\netcoreapp2.1\PermutationsService.Tests.AssemblyInfoInputs.cache
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\obj\Debug\netcoreapp2.1\PermutationsService.Tests.AssemblyInfo.cs
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\obj\Debug\netcoreapp2.1\PermutationsService.Tests.csproj.CopyComplete
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\obj\Debug\netcoreapp2.1\PermutationsService.Tests.dll
+I:\Work\Тестовые задания\РОССКО\src\PermutationsService\PermutationsService.Tests\obj\Debug\netcoreapp2.1\PermutationsService.Tests.pdb

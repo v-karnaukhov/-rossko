@@ -13,6 +13,12 @@ namespace PermutationsService.Web.DataAccess.Concrete
             PermutationsRepository = new PermutationsRepository(_context);
         }
 
+        public UnitOfWork(DataContext context)
+        {
+            _context = context;
+            PermutationsRepository = new PermutationsRepository(_context);
+        }
+
         public IPermutationsRepository PermutationsRepository { get; set; }
 
         public async Task<int> SaveAsync()
