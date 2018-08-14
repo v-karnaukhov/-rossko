@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "87698ba0-11e7-4a39-983a-bb645a740d60",
+		"name": "PermutationsService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create permutations",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t\"qwe\",\n\t\"asd\"\n]"
+				},
+				"url": {
+					"raw": "http://localhost:63982/api/permutations/bulk-insert",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "63982",
+					"path": [
+						"api",
+						"permutations",
+						"bulk-insert"
+					]
+				},
+				"description": "Обращается к сервису за получением перестановок для переданного массива."
+			},
+			"response": []
+		}
+	]
+}
