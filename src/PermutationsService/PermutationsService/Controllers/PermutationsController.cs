@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PermutationsService.Services.Abstract;
 using PermutationsService.Web.DataAccess.Entities;
+using PermutationsService.Web.Models;
 
 namespace PermutationsService.Web.Controllers
 {
@@ -13,10 +15,12 @@ namespace PermutationsService.Web.Controllers
     public class PermutationsController : ControllerBase
     {
         private readonly IPermutationsService _permutationsService;
+        private readonly IMapper _mapper;
 
-        public PermutationsController(IPermutationsService permutationsService)
+        public PermutationsController(IPermutationsService permutationsService, IMapper mapper)
         {
             _permutationsService = permutationsService;
+            _mapper = mapper;
         }
 
         // GET: api/<controller>
@@ -27,7 +31,7 @@ namespace PermutationsService.Web.Controllers
         }
 
         /// <remarks>
-        /// Вставка порционных данных плохо вписывается в REST, поэтому реализовано в виде " custom user function"
+        /// Вставка порционных данных плохо вписывается в REST, поэтому реализовано в виде "custom user function".
         /// </remarks>
         // POST: api/<controller>/bulk-insert
         [HttpPost]
@@ -39,10 +43,12 @@ namespace PermutationsService.Web.Controllers
                 return BadRequest("The incoming array can not be empty");
             }
 
-            List<PermutationEntry> result;
+            List<PermutationEntry> permutationsEntires;
+            List<PermutationsBulkInsertResultModel> result;
             try
             {
-                result = (List<PermutationEntry>) await _permutationsService.GetPermutations(elements);
+                permutationsEntires = (List<PermutationEntry>) await _permutationsService.GetPermutations(elements);
+                result = _mapper.Map<List<PermutationEntry>, List<PermutationsBulkInsertResultModel>>(permutationsEntires);
             }
             catch (Exception e)
             {

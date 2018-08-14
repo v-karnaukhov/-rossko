@@ -9,17 +9,17 @@ namespace PermutationsService.Services.Abstract
     /// </summary>
     public interface IPermutationsService
     {
-        ///// <summary>
-        ///// Получает все варианты перестановок содержимого элемента.
-        ///// </summary>
-        ///// <param name="element">
-        /////     Целевой элемент.
-        ///// </param>
-        ///// <returns>
-        ///// Возвращает инициализированный экземпляр класса <seealso cref="PermutationEntry"/>
-        ///// или null в случае ошибки.
-        ///// </returns>
-        //Task<PermutationEntry> GetPermutations(string element);
+        /// <summary>
+        /// Получает все варианты перестановок содержимого элемента.
+        /// </summary>
+        /// <param name="element">
+        ///     Целевой элемент.
+        /// </param>
+        /// <returns>
+        /// Возвращает инициализированный экземпляр класса <seealso cref="PermutationEntry"/>
+        /// или null в случае ошибки.
+        /// </returns>
+        Task<PermutationEntry> GetPermutations(string element);
 
         /// <summary>
         /// Получает все варианты перестановок содержимого элементов массива.

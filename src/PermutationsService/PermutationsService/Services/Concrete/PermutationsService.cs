@@ -55,14 +55,6 @@ namespace PermutationsService.Web.Services.Concrete
             }
         }
 
-        /// <summary>
-        /// Костыльное решение, чтобы иметь возможность подменять UnitOfWork без прокидывания доп. зависимостей.
-        /// </summary>
-        public virtual IUnitOfWork GetUnitOfWork()
-        {
-            return new UnitOfWork();
-        }
-
         public async Task<IEnumerable<PermutationEntry>> GetPermutations(string[] elements)
         {
             var result = new ConcurrentBag<PermutationEntry>();
@@ -73,6 +65,14 @@ namespace PermutationsService.Web.Services.Concrete
             })));
 
             return result.ToList();
+        }
+
+        /// <summary>
+        /// Костыльное решение, чтобы иметь возможность подменять UnitOfWork без прокидывания доп. зависимостей.
+        /// </summary>
+        public virtual IUnitOfWork GetUnitOfWork()
+        {
+            return new UnitOfWork();
         }
 
         public string GetUniqueKeyByValue(string element)

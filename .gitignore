@@ -3,3 +3,5 @@ src/PermutationsService/PermutationsService/bin/
 src/PermutationsService/PermutationsService/obj/
 src/PermutationsService/PermutationsService.Data/obj/
 src/PermutationsService/PermutationsService.Data/bin/
+src/PermutationsService/PermutationsService.Tests/obj/
+src/PermutationsService/PermutationsService.Tests/bin/
